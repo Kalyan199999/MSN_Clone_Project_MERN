@@ -4,7 +4,7 @@ const verifyToken = require('../MIDDLEWARE/verifyToken')
 const { uploadUser } = require('../MULTERHANDLER/uploadImage')
 
 // import all the custiom functions
-const { getUserById , registration , updateUser } = require('../CONTROLER/userControler')
+const { getUserById , registration , updateUser , deleteUser } = require('../CONTROLER/userControler')
 
 // create the user router
 const userrouter  = express.Router();
@@ -13,9 +13,12 @@ const userrouter  = express.Router();
 userrouter.get( "/:id" , verifyToken , getUserById )
 
 // create the new user
-userrouter.post('/register' , uploadUser.single('user_profile') , registration )
+userrouter.post('/' , uploadUser.single('user_profile') , registration )
 
 // update the user
-userrouter.put('/update/:id' , verifyToken , uploadUser.single('user_profile') , updateUser );
+userrouter.put('/:id' , verifyToken , uploadUser.single('user_profile') , updateUser );
+
+// delete the user
+userrouter.delete('/:id' , verifyToken , deleteUser )
 
 module.exports = userrouter;

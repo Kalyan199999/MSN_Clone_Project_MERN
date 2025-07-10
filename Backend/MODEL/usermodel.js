@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
 
   dateOfBirth: {
     type: Date,
-    default: Date.now()
+    default: new Date()
   },
   profile:{
     type: fileInfo

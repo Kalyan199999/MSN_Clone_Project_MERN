@@ -78,8 +78,8 @@ const registration = async (req, res) =>
                 password: hashPassword,
                 phone: phone,
                 country: country,
-                gender: gender.tolowercase(),
-                dateOfBirth: dateOfBirth,
+                gender: gender?.toLowerCase(),
+                dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : new Date(),
                 profile: profile
             }
         )
@@ -131,8 +131,8 @@ const updateUser = async (req, res) => {
     if (email) updateData.email = email;
     if (phone) updateData.phone = phone;
     if (country) updateData.country = country;
-    if (gender) updateData.gender = gender.tolowercase();
-    if (dateOfBirth) updateData.dateOfBirth = dateOfBirth;
+    if (gender) updateData.gender = gender?.toLowerCase();
+    if (dateOfBirth) updateData.dateOfBirth = dateOfBirth ? new Date(dateOfBirth) : new Date();
     if (profile) updateData.profile = profile; // new profile image
 
     // Update the user
@@ -171,10 +171,51 @@ const updateUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req,res)=>{
+
+  try 
+  {
+      const id = req.params.id;
+
+      if( !id ){
+        return res.status(400).json({
+          ok: false,
+          message: "Please provide a valid user id!"
+        })
+      }
+
+      const user = await User.findByIdAndDelete( id );
+
+      if(!user)
+      {
+        return res.status(404).json({
+          ok: false,
+          message: "User not found!"
+        })
+      }
+
+      return res.status(200).json({
+        ok: true,
+        message: "User deleted successfully!",
+        data: user
+      })
+  } 
+  catch (error) 
+  {
+    return res.status(500).json({
+      ok: false,
+      message: "Error deleting user!",
+      error: error.message,
+    })
+  }
+
+}
+
 
 // export all the functions
 module.exports = {
     getUserById,
     registration,
-    updateUser
+    updateUser,
+    deleteUser
 }
