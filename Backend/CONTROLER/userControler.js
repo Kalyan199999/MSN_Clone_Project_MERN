@@ -78,7 +78,7 @@ const registration = async (req, res) =>
                 password: hashPassword,
                 phone: phone,
                 country: country,
-                gender: gender,
+                gender: gender.tolowercase(),
                 dateOfBirth: dateOfBirth,
                 profile: profile
             }
@@ -131,7 +131,7 @@ const updateUser = async (req, res) => {
     if (email) updateData.email = email;
     if (phone) updateData.phone = phone;
     if (country) updateData.country = country;
-    if (gender) updateData.gender = gender;
+    if (gender) updateData.gender = gender.tolowercase();
     if (dateOfBirth) updateData.dateOfBirth = dateOfBirth;
     if (profile) updateData.profile = profile; // new profile image
 
