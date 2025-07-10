@@ -8,6 +8,7 @@ const connect = require('./CONFIG/connection')
 
 // routes
 const userrouter = require('./ROUTE/userRoute')
+const newsRoute = require('./ROUTE/newsRoute')
 
 const PORT = process.env.PORT || 5050;
 
@@ -19,7 +20,8 @@ app.use(express.json());
 app.use('/IMAGES', express.static(__dirname + '/IMAGES'));
 
 // set the api path
-app.use( '/api/user' , userrouter);
+app.use( '/api/user' , userrouter );
+app.use( '/api/news' , newsRoute )
 
 app.listen( PORT , ()=>{
     try 
