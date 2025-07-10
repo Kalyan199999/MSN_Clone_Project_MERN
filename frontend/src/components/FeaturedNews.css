@@ -1,0 +1,87 @@
+.featured-news {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  margin: 2.5rem auto 2rem auto;
+  max-width: 900px;
+  min-height: 320px;
+  background: rgba(30, 34, 48, 0.78);
+  border-radius: 28px;
+  box-shadow: 0 12px 32px 0 rgba(16,28,44,0.28), 0 2px 12px 0 rgba(0,0,0,0.18);
+  overflow: hidden;
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1.5px solid rgba(255,255,255,0.10);
+}
+
+.featured-news__image {
+  flex: 1.2;
+  min-width: 220px;
+  background: linear-gradient(135deg, rgba(60,70,120,0.45) 0%, rgba(20,24,40,0.85) 100%),
+    url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80') center center/cover no-repeat;
+  filter: blur(0.5px) brightness(0.96) saturate(1.08);
+}
+
+.featured-news__content {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.2rem 2.2rem 2.2rem 2rem;
+  background: rgba(24, 32, 56, 0.60);
+  color: #fff;
+}
+
+.featured-news__headline {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 1.1rem;
+  line-height: 1.15;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+
+.featured-news__summary {
+  font-size: 1.13rem;
+  font-weight: 400;
+  margin-bottom: 1.7rem;
+  color: #e0e6f0;
+  line-height: 1.5;
+}
+
+.featured-news__button {
+  display: inline-block;
+  background: linear-gradient(90deg, #1e90ff 60%, #0078d4 100%);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.7rem 2.1rem;
+  border-radius: 18px;
+  text-decoration: none;
+  font-size: 1.08rem;
+  box-shadow: 0 2px 8px rgba(0,120,212,0.18);
+  transition: background 0.18s, box-shadow 0.18s, transform 0.18s;
+}
+
+.featured-news__button:hover, .featured-news__button:focus {
+  background: linear-gradient(90deg, #0078d4 60%, #1e90ff 100%);
+  box-shadow: 0 6px 24px rgba(0,120,212,0.22);
+  transform: translateY(-2px) scale(1.03);
+}
+
+@media (max-width: 700px) {
+  .featured-news {
+    flex-direction: column;
+    min-height: 0;
+    max-width: 98vw;
+  }
+  .featured-news__image {
+    min-height: 180px;
+    min-width: 0;
+    width: 100%;
+  }
+  .featured-news__content {
+    padding: 1.2rem 1.1rem 1.5rem 1.1rem;
+  }
+  .featured-news__headline {
+    font-size: 1.3rem;
+  }
+} 

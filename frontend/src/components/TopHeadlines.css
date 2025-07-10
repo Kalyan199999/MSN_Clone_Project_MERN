@@ -1,0 +1,31 @@
+.top-headlines {
+  margin: 2.5rem auto 2rem auto;
+  max-width: 1100px;
+  padding: 0 1.2rem;
+}
+
+.top-headlines__title {
+  color: #fff;
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.13);
+}
+
+.top-headlines__grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 2.2rem 1.5rem;
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .top-headlines__title {
+    font-size: 1.2rem;
+    margin-bottom: 1.1rem;
+  }
+  .top-headlines__grid {
+    gap: 1.2rem 0.7rem;
+  }
+} 
