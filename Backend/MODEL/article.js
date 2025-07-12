@@ -24,7 +24,6 @@ const commentSchema = new mongoose.Schema({
 
 
 // The main news article schema
-
 const articleSchema = new mongoose.Schema({
 
     // Headline/title of the news article
@@ -49,11 +48,11 @@ const articleSchema = new mongoose.Schema({
   },
 
 //   Category (e.g., Business, Sports, Politics, etc.)
-  category: {
-    type: [],
-    enum: ['Politics', 'Business', 'Technology', 'Sports', 'Entertainment', 'Health', 'Other'],
-    default: ['Other'],
-  },
+category: [{
+  type: String,
+  enum: ['Politics', 'Business', 'Technology', 'Sports', 'Entertainment', 'Health', 'Other'],
+  default: 'Other',
+}],
 
 //   Keywords for filtering/searching
   tags: {
@@ -63,7 +62,7 @@ const articleSchema = new mongoose.Schema({
 
   	// Name of a User document that created the article
   author: {
-    type: [String],
+    type: [],
     required: [true, "Author is required"]
   },
 
@@ -105,6 +104,6 @@ const articleSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-const Artice = mongoose.model("Article", articleSchema);
+const Article = mongoose.model("Article", articleSchema);
 
-module.exports = Artice;
+module.exports = Article;
