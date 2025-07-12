@@ -182,10 +182,61 @@ const searchArticlesByTags = async (req, res) => {
   }
 };
 
+// Search articles by title (case-insensitive, partial match, with pagination)
+// http://localhost:5050/api/news/search/title?title=mahesh babu&page=1&limit=5
+const search = async (req, res) => {
+  try {
+    const { title = '', page = 1, limit = 10 } = req.query;
+
+    const limitNum = parseInt(limit);
+    const skip = (page - 1) * limitNum;
+
+    // Case-insensitive regex search
+    const regex = new RegExp(title, 'i');
+
+    const filter = {
+      title: { $regex: regex }
+    };
+
+    // console.log(filter);
+    
+
+    const articles = await Article.find(filter)
+      .skip(skip)
+      .limit(limitNum)
+      .sort({ publishedAt: -1 });
+
+    if (articles.length === 0) 
+    {
+      return res.status(200).json({
+        ok: true,
+        message: 'No articles found for the given title!',
+        data: []
+      });
+    }
+
+    return res.status(200).json({
+      ok: true,
+      message: 'Articles fetched successfully!',
+      data: articles
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      message: 'Articles fetching failed!',
+      error: error.message,
+      data: []
+    });
+  }
+};
+
+
 
 module.exports = {
     getAllArticles,
     getArticleById,
     searchArticlesByCategory,
-    searchArticlesByTags
+    searchArticlesByTags,
+    search,
 }
