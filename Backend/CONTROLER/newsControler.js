@@ -232,6 +232,61 @@ const search = async (req, res) => {
 };
 
 
+const uploadArticle = async (req, res) => {
+  try {
+    const { title, summary, content, source } = req.body;
+
+    const category = Array.isArray(req.body.category)
+      ? req.body.category
+      : req.body.category?.split(",").map((item) => item.trim());
+
+    const tags = Array.isArray(req.body.tags)
+      ? req.body.tags
+      : req.body.tags?.split(",").map((item) => item.trim());
+
+    const author = Array.isArray(req.body.author)
+      ? req.body.author
+      : req.body.author?.split(",").map((item) => item.trim());
+
+    const coverImage = req.file || null;
+
+    // Validate required fields
+    if (!title || !content || !author?.length) {
+      return res.status(400).json({
+        ok: false,
+        message: "Title, content, and at least one author are required.",
+      });
+    }
+
+    // Create article object
+    const article = new Article({
+      title,
+      summary,
+      content,
+      category,
+      tags,
+      author,
+      source,
+      coverImage,
+    });
+
+    await article.save();
+
+    return res.status(201).json({
+      ok: true,
+      message: "Article uploaded successfully!",
+      data: article,
+    });
+  } 
+  catch (error) {
+    return res.status(500).json({
+      ok: false,
+      message: "Article upload failed",
+      error: error.message,
+    });
+  }
+};
+
 
 module.exports = {
     getAllArticles,
@@ -239,4 +294,5 @@ module.exports = {
     searchArticlesByCategory,
     searchArticlesByTags,
     search,
+    uploadArticle
 }

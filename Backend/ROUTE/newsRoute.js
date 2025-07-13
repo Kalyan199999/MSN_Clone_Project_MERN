@@ -4,7 +4,7 @@ const newsRoute = express.Router();
 const verifyToken = require('../MIDDLEWARE/verifyToken')
 const { uploadNews } = require('../MULTERHANDLER/uploadNewsImage')
 
-const { getAllArticles, getArticleById,searchArticlesByCategory,searchArticlesByTags,search } = require('../CONTROLER/newsControler');
+const { getAllArticles, getArticleById,searchArticlesByCategory,searchArticlesByTags,search, uploadArticle } = require('../CONTROLER/newsControler');
 
 // get all articles
 newsRoute.get('/' , getAllArticles)
@@ -21,5 +21,8 @@ newsRoute.get('/search/category' , searchArticlesByCategory )
 // search articles by tags
 newsRoute.get( '/search/tags' , searchArticlesByTags )
 
+// post the article
+newsRoute.post('/'  , uploadNews.single('news_image') , uploadArticle)
 
-module.exports = newsRoute;
+
+module.exports = newsRoute; 
