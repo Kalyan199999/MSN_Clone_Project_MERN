@@ -33,6 +33,18 @@ const UploadArticle = () => {
   const [author, setAuthor] = useState([]);
   const [disabled, setDisabled] = useState(true);
 
+  // validate the form to submit
+  const formValid =
+  formData.title.trim() &&
+  formData.summary.trim() &&
+  formData.content.trim() &&
+  formData.source.trim() &&
+  category.length > 0 &&
+  tag.length > 0 &&
+  author.length > 0 &&
+  formData.coverImage;
+
+
   /* ─────────────── handlers ─────────────── */
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -194,26 +206,35 @@ const UploadArticle = () => {
 
         {/* Dropdown (toggle) */}
         <div className="my-4">
-          <button
-            type="button"
-            onClick={() => setDisabled(!disabled)}
-            className="text-blue-600 underline"
-          >
-            {disabled ? "Show Categories" : "Hide Categories"}
-          </button>
-
-          <div
-            className={`${
-              disabled ? "hidden" : "block"
-            } border rounded-lg p-4 shadow-sm bg-gray-50 mt-2`}
-          >
-            {typeOfCategories.map((item) => (
-              <span key={item} className="block py-1 text-gray-700">
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
+              <button
+                type="button"
+                onClick={() => setDisabled(!disabled)}
+                className="text-blue-600 underline"
+              >
+                {disabled ? "Show Categories" : "Hide Categories"}
+              </button>
+            
+              <div
+                className={`${
+                  disabled ? "hidden" : "block"
+                } border rounded-lg p-4 shadow-sm bg-gray-50 mt-2`}
+              >
+                {typeOfCategories.map((item) => (
+                  <span
+                    key={item}
+                    onClick={() => {
+                      navigator.clipboard.writeText(item);
+                      toast.success(`${item} Copied!`);
+                    }}
+                    className="block py-1 text-gray-700 cursor-pointer hover:text-blue-500"
+                    title="Click to copy"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+         </div>
+      
 
         {/* Tags input + chips */}
         <div className="flex items-center gap-2">
@@ -269,7 +290,7 @@ const UploadArticle = () => {
         <input
           type="text"
           name="source"
-          placeholder="Source (optional)"
+          placeholder="Source"
           value={formData.source}
           onChange={handleChange}
           className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -286,7 +307,8 @@ const UploadArticle = () => {
         {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-4 rounded-xl text-lg font-semibold hover:bg-blue-700 transition"
+          disabled={!formValid}
+          className={`w-full ${formValid ? "bg-blue-600":"bg-gray-400"} text-white py-4 rounded-xl text-lg font-semibold  ${formValid ? "hover:bg-blue-700":"bg-gray-400"} ${formValid ? "cursor-pointer":""}  transition`}
         >
           Submit Article
         </button>
