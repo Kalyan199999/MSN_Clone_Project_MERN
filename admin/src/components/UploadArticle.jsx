@@ -71,7 +71,7 @@ const UploadArticle = () => {
      
        // Append the file if available
        if (formData.coverImage) {
-         data.append("coverImage", formData.coverImage);
+         data.append("news_image", formData.coverImage);
        }
 
        for (let pair of data.entries()) {
