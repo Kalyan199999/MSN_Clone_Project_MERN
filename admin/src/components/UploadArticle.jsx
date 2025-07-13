@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { toast } from 'react-toastify';
+import axios from "axios";
 
 const typeOfCategories = [
   "Politics",
@@ -9,6 +11,8 @@ const typeOfCategories = [
   "Health",
   "Other",
 ];
+
+const url = "http://localhost:5050/api/news";
 
 const UploadArticle = () => {
 
@@ -52,7 +56,7 @@ const UploadArticle = () => {
 
 
   /* ─────────────── submit ─────────────── */
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
 
@@ -74,11 +78,33 @@ const UploadArticle = () => {
          data.append("news_image", formData.coverImage);
        }
 
-       for (let pair of data.entries()) {
-  console.log(`${pair[0]}:`, pair[1]);
-}
+        try {
+          const res = await axios.post(url , data ,{
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+           });
 
-       
+          setFormData({
+                  title: "",
+                  summary: "",
+                  content: "",
+                  category: "",
+                  tags: "",
+                  author: "",
+                  source: "",
+                  coverImage: null,
+                })     
+          setAuthor([])         
+          setTag([])
+          setCategory([])
+          setDisabled(true);
+          toast.success(res?.data?.message)
+          
+        } catch (error) {
+          console.log(error);
+          toast.success(error?.message)
+        }
   };
 
   /* reusable chip renderer */

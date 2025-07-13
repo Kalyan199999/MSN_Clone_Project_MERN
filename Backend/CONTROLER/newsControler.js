@@ -41,7 +41,8 @@ const getAllArticles = async (req, res) => {
       }
     });
   } 
-  catch (error) {
+  catch (error) 
+  {
     return res.status(500).json({
       ok: false,
       message: 'Articles fetching failed!',
@@ -271,8 +272,9 @@ const uploadArticle = async (req, res) => {
     });
 
     await article.save();
+    
 
-    return res.status(201).json({
+    return res.status(200).json({
       ok: true,
       message: "Article uploaded successfully!",
       data: article,
