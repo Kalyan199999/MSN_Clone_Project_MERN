@@ -289,6 +289,105 @@ const uploadArticle = async (req, res) => {
   }
 };
 
+// update the news article
+
+const updateArticle = async (req, res) => {
+  try {
+    const articleId = req.params.id;
+
+    // Extract text fields from req.body
+    const { title, summary, content, source } = req.body;
+
+    // Ensure arrays come in correctly (handles single string or array)
+    const category = Array.isArray(req.body.category)
+      ? req.body.category
+      : [req.body.category].filter(Boolean);
+
+    const tags = Array.isArray(req.body.tags)
+      ? req.body.tags
+      : [req.body.tags].filter(Boolean);
+
+    const author = Array.isArray(req.body.author)
+      ? req.body.author
+      : [req.body.author].filter(Boolean);
+
+    // Build update object
+    const updateData = {
+      ...(title && { title }),
+      ...(summary && { summary }),
+      ...(content && { content }),
+      ...(source && { source }),
+      ...(category.length && { category }),
+      ...(tags.length && { tags }),
+      ...(author.length && { author }),
+    };
+
+    // If a file is uploaded
+    if (req.file) {
+      updateData.coverImage = req.file
+    }
+
+    const updatedArticle = await Article.findByIdAndUpdate(
+      articleId,
+      updateData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!updatedArticle) {
+      return res.status(404).json({
+        ok: false,
+        message: 'Article not found!',
+      });
+    }
+
+    return res.status(200).json({
+      ok: true,
+      message: 'Article updated successfully!',
+      data: updatedArticle,
+    });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      ok: false,
+      message: 'Failed to update article.',
+      error: error.message,
+    });
+  }
+};
+
+
+const deleteArticle = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedArticle = await Article.findByIdAndDelete(id);
+
+    if (!deletedArticle) {
+      return res.status(404).json({
+        ok: false,
+        message: "Article not found or already deleted!",
+      });
+    }
+
+    return res.status(200).json({
+      ok: true,
+      message: "Article deleted successfully!",
+      data: deletedArticle,
+    });
+  } 
+  catch (error) {
+    return res.status(500).json({
+      ok: false,
+      message: "Error deleting the article.",
+      error: error.message,
+    });
+  }
+};
+
 
 module.exports = {
     getAllArticles,
@@ -296,5 +395,7 @@ module.exports = {
     searchArticlesByCategory,
     searchArticlesByTags,
     search,
-    uploadArticle
+    uploadArticle,
+    updateArticle,
+    deleteArticle
 }
