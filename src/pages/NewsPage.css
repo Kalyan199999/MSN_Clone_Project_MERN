@@ -1,0 +1,21 @@
+/* src/pages/NewsPage.css */
+
+.category-btn {
+  transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+  background-color: #0dcaf0 !important; /* Light blue on hover */
+  color: white !important;
+}
+
+.search-input input:focus {
+  border-color: #6610f2;
+  box-shadow: 0 0 0 0.2rem rgba(102, 16, 242, 0.25);
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0.8rem 1.5rem rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
