@@ -1,5 +1,6 @@
 import React from 'react';
 import './LoginPage.css'; // Custom styling
+import { Link } from 'react-router-dom'; // ✅ Added Link for routing
 
 function LoginPage() {
   return (
@@ -21,7 +22,9 @@ function LoginPage() {
           <button type="submit" className="btn btn-primary w-100">Login</button>
         </form>
 
-        <p className="mt-3 text-center text-muted">Don't have an account? <a href="#">Sign up</a></p>
+        <p className="mt-3 text-center text-muted">
+          Don't have an account? <Link to="/signup">Sign up</Link>
+        </p>
       </div>
     </div>
   );
